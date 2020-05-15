@@ -13,8 +13,8 @@ import {
 } from "reactstrap";
 
 //creating a blue print for yup to validate my form
-let formSchema = yup.object().shape({
-  name: yup.string().required("you need to import your name"),
+const formSchema = yup.object().shape({
+  name: yup.string().required("you need to input your name"),
   email: yup
     .string()
     .email("E-mail is not valid")
@@ -23,7 +23,7 @@ let formSchema = yup.object().shape({
     .string()
     .required("Password is required")
     .min(8, "password must be at least 8 characters"),
-  terms: yup.boolean().oneOf([true], "Please agree to tearms of use")
+  terms: yup.boolean().oneOf([true], "Please agree to terms of use")
 });
 
 //start of my function
@@ -56,7 +56,7 @@ export default function Forms() {
 
   //function to see if each element in the form is valid
   const validate = e => {
-    let value =
+    const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
     yup
       .reach(formSchema, e.target.name)
@@ -118,10 +118,12 @@ export default function Forms() {
               placeholder="Name:  "
               value={formState.name}
               onChange={handleChange}
+              data-cy="name-input"
             />
             {errorState.name.length > 0 ? (
               <p className="errors">{errorState.name}</p>
             ) : null}
+            
           </Row>
         </FormGroup>
         <FormGroup>
@@ -134,6 +136,7 @@ export default function Forms() {
               placeholder="email: "
               value={formState.email}
               onChange={handleChange}
+              data-cy="email-input"
             />
             {errorState.email.length > 0 ? (
               <p className="errors">{errorState.email}</p>
@@ -150,6 +153,7 @@ export default function Forms() {
               placeholder="Password: "
               value={formState.password}
               onChange={handleChange}
+              data-cy="password-input"
             />
             {errorState.password.length > 0 ? (
               <p className="errors">{errorState.password}</p>
@@ -158,20 +162,21 @@ export default function Forms() {
         </FormGroup>
         <FormGroup>
           <Row style={{ margin: "0 30%" }}>
-            <Label htmlFor="terms">Terms and conditions </Label>
+            <Label htmlFor="terms">Terms and conditions</Label>
             <Input
               id="terms"
               name="terms"
               type="checkbox"
               checked={formState.terms}
               onChange={handleChange}
+              data-cy="checkbox"
             />
             {errorState.terms.length > 0 ? (
-              <p className="errors">{errorState.terms}</p>
+              <p className="errors" style={{margin:"7% 0 0 -35%"}}>{errorState.terms}</p>
             ) : null}
           </Row>
         </FormGroup>
-        <Button type="submit" disabled={disabled}>
+        <Button type="submit" disabled={disabled} data-cy="submit" >
           Save info
         </Button>
       </Form>
